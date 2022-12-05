@@ -1,0 +1,33 @@
+#include "HX711.h"
+#define RELAY_PIN 1
+
+const int LOADCELL_DOUT_PIN = 2;
+const int LOADCELL_SCK_PIN = 3;
+
+HX711 scale;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  pinMode(RELAY_PIN, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (scale.is_ready()) {
+    long reading = scale.read();
+    Serial.print("HX711 reading: ");
+    Serial.println(reading);
+  }else {
+    Serial.println("HX711 Not Found");
+    exit(0);
+  }
+  delay(1000);
+long reading = scale.read();
+  if (reading>=450){
+    pinMode(RELAY_PIN,HIGH);
+  }else (reading<450);{
+    pinMode(RELAY_PIN,LOW);
+  }
+ }
